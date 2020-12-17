@@ -1,0 +1,21 @@
+{
+    "code": 200,
+    "msg": "操作成功",
+    "data": {
+        "phoneNumber": "325436",
+        "name": "小朱",
+        "nickname": null,
+        "userId": 1086324736,
+        "token": "123456"
+    }
+}
+// {
+//     "code": 400,
+//     "msg": "密码错误！",
+//     "data": null
+// }
+// {
+//     "code": 400,
+//     "msg": "用户不存在",
+//     "data": null
+// }
