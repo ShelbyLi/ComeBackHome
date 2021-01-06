@@ -30,14 +30,17 @@ const mutations = {
 const actions = {
   // user login
   login({ commit }, userInfo) {
-    const { username, password } = userInfo
+    const { phoneNumber, password } = userInfo
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
+      console.log('hr')
+      login({ phoneNumber: phoneNumber, password: password }).then(response => {
         const { data } = response
-        commit('SET_TOKEN', data.token)
+        // console.log(data)
+        commit('SET_TOKEN', data.token) // 修改登录状态 存令牌
         setToken(data.token)
         resolve()
       }).catch(error => {
+        console.log(error)
         reject(error)
       })
     })

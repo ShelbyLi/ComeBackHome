@@ -19,7 +19,7 @@ export default {
       return isExternal(this.to)
     },
     type() {
-      if (this.isExternal) {
+      if (this.isExternal) { // 是https的链接
         return 'a'
       }
       return 'router-link'

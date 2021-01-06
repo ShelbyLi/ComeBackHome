@@ -46,6 +46,10 @@ module.exports = {
       alias: {
         '@': resolve('src')
       }
+    },
+    externals: {
+      'BMap': 'BMap',
+      'BMap_Symbol_SHAPE_POINT': 'BMap_Symbol_SHAPE_POINT'
     }
   },
   chainWebpack(config) {
@@ -87,7 +91,7 @@ module.exports = {
             .plugin('ScriptExtHtmlWebpackPlugin')
             .after('html')
             .use('script-ext-html-webpack-plugin', [{
-            // `runtime` must same as runtimeChunk name. default is `runtime`
+              // `runtime` must same as runtimeChunk name. default is `runtime`
               inline: /runtime\..*\.js$/
             }])
             .end()
@@ -121,3 +125,18 @@ module.exports = {
       )
   }
 }
+
+
+// module.exports = {
+//   devServer: {
+//     before: require('./mymock/index.js')
+//   }
+// }
+// module.exports = {
+// 	configureWebpack:{
+// 		externals:{
+// 	   	   'BMap': 'BMap',
+// 	   	   'BMap_Symbol_SHAPE_POINT':'BMap_Symbol_SHAPE_POINT'
+// 	    }
+// 	}
+// }

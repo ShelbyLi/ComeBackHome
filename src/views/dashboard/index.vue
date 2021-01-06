@@ -1,6 +1,11 @@
 <template>
   <div class="dashboard-container">
     <div class="dashboard-text">name: {{ name }}</div>
+    <div class="dashboard-text">phoneNumber: {{ phoneNumber }}</div>
+    <div class="dashboard-text">nickname: {{ nickname }}</div>
+    <div class="dashboard-text">avatar: {{ avatar }}</div>
+    <div class="dashboard-text">avatar: {{ roles }}</div>
+    <!-- <button @click="testclick"></button> -->
   </div>
 </template>
 
@@ -11,8 +16,18 @@ export default {
   name: 'Dashboard',
   computed: {
     ...mapGetters([
-      'name'
+      'name',
+      'phoneNumber',
+      'nickname',
+      'avatar',
+      'roles'
     ])
+  },
+  methods: {
+    // testclick() {
+    //   console.log(this.$store.state.name)
+    // }
+    
   }
 }
 </script>

@@ -1,29 +1,47 @@
 <template>
   <div class="navbar">
+    <!-- 汉堡折叠 -->
     <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
-
+    <!-- 面包屑导航 -->
     <breadcrumb class="breadcrumb-container" />
+    <!-- 右上方头像和下拉菜单 -->
+        <div class="right-menu">
+      <template v-if="device!=='mobile'">
+        <search id="header-search" class="right-menu-item" />
 
-    <div class="right-menu">
-      <el-dropdown class="avatar-container" trigger="click">
+        <!-- <error-log class="errLog-container right-menu-item hover-effect" /> -->
+
+        <screenfull id="screenfull" class="right-menu-item hover-effect" />
+
+        <el-tooltip content="查看消息" effect="dark" placement="bottom">
+          <!-- <size-select id="size-select" class="right-menu-item hover-effect" /> -->
+          <!-- <i class="el-icon-message-solid" /> -->
+          <message id="message" class="right-menu-item hover-effect"/>
+          <!-- <router-link to="/message/index"></router-link> -->
+        </el-tooltip>
+
+      </template>
+
+      <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
         <div class="avatar-wrapper">
           <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
           <i class="el-icon-caret-bottom" />
         </div>
-        <el-dropdown-menu slot="dropdown" class="user-dropdown">
-          <router-link to="/">
-            <el-dropdown-item>
-              Home
-            </el-dropdown-item>
+        <el-dropdown-menu slot="dropdown">
+          <router-link to="/profile/index">
+            <el-dropdown-item>我</el-dropdown-item>
           </router-link>
-          <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">
+          <!-- <router-link to="/">
+            <el-dropdown-item>Dashboard</el-dropdown-item>
+          </router-link> -->
+          <!-- <a target="_blank" href="https://github.com/PanJiaChen/vue-element-admin/">
             <el-dropdown-item>Github</el-dropdown-item>
           </a>
           <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
             <el-dropdown-item>Docs</el-dropdown-item>
-          </a>
+          </a> -->
           <el-dropdown-item divided @click.native="logout">
-            <span style="display:block;">Log Out</span>
+            <span style="display:block;">退出</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -35,16 +53,23 @@
 import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
+import Screenfull from '@/components/Screenfull'
+import Search from '@/components/HeaderSearch'
+import Message from '@/components/Message'
 
 export default {
   components: {
     Breadcrumb,
-    Hamburger
+    Hamburger,
+    Screenfull,
+    Search,
+    Message
   },
   computed: {
     ...mapGetters([
       'sidebar',
-      'avatar'
+      'avatar',
+      'device'
     ])
   },
   methods: {
@@ -52,7 +77,7 @@ export default {
       this.$store.dispatch('app/toggleSideBar')
     },
     async logout() {
-      await this.$store.dispatch('user/logout')
+      await this.$store.dispatch('admin/logout')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     }
   }
@@ -83,6 +108,11 @@ export default {
   .breadcrumb-container {
     float: left;
   }
+
+  // .errLog-container {
+  //   display: inline-block;
+  //   vertical-align: top;
+  // }
 
   .right-menu {
     float: right;

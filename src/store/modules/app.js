@@ -13,7 +13,7 @@ const mutations = {
     state.sidebar.opened = !state.sidebar.opened
     state.sidebar.withoutAnimation = false
     if (state.sidebar.opened) {
-      Cookies.set('sidebarStatus', 1)
+      Cookies.set('sidebarStatus', 1) // cookie中存为1 即打开sidebar
     } else {
       Cookies.set('sidebarStatus', 0)
     }
@@ -29,7 +29,7 @@ const mutations = {
 }
 
 const actions = {
-  toggleSideBar({ commit }) {
+  toggleSideBar({ commit }) { // 切换sidebar  我并不知道什么意思...
     commit('TOGGLE_SIDEBAR')
   },
   closeSideBar({ commit }, { withoutAnimation }) {

@@ -1,136 +1,262 @@
 <template>
   <div class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
-
+    <!-- 登录表 -->
+    <el-form
+      ref="loginForm"
+      :model="loginForm"
+      :rules="loginRules"
+      class="login-form"
+      auto-complete="on"
+      label-position="left"
+    >
+      <!-- title -->
       <div class="title-container">
-        <h3 class="title">Login Form</h3>
+        <h3 class="title">Come Back Home - 后台系统</h3>
       </div>
 
-      <el-form-item prop="username">
+      <!-- 表单项1 -->
+      <el-form-item prop="phoneNumber">
         <span class="svg-container">
-          <svg-icon icon-class="user" />
+          <!-- <svg-icon icon-class="user" /> -->
+          <i class="el-icon-mobile" />
         </span>
         <el-input
-          ref="username"
-          v-model="loginForm.username"
-          placeholder="Username"
-          name="username"
+          ref="phoneNumber"
+          v-model="loginForm.phoneNumber"
+          placeholder="139XXXX0000"
+          name="phoneNumber"
           type="text"
           tabindex="1"
           auto-complete="on"
         />
       </el-form-item>
-
-      <el-form-item prop="password">
-        <span class="svg-container">
-          <svg-icon icon-class="password" />
-        </span>
-        <el-input
-          :key="passwordType"
-          ref="password"
-          v-model="loginForm.password"
-          :type="passwordType"
-          placeholder="Password"
-          name="password"
-          tabindex="2"
-          auto-complete="on"
-          @keyup.enter.native="handleLogin"
-        />
-        <span class="show-pwd" @click="showPwd">
-          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
-        </span>
-      </el-form-item>
-
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
-
-      <div class="tips">
-        <span style="margin-right:20px;">username: admin</span>
+      <!-- 表单项2 -->
+      <el-tooltip
+        v-model="capsTooltip"
+        content="Caps lock is On"
+        placement="right"
+        manual
+      >
+        <el-form-item prop="password">
+          <span class="svg-container">
+            <svg-icon icon-class="password" />
+          </span>
+          <el-input
+            :key="passwordType"
+            ref="password"
+            v-model="loginForm.password"
+            :type="passwordType"
+            placeholder="Password"
+            name="password"
+            tabindex="2"
+            auto-complete="on"
+            @keyup.native="checkCapslock"
+            @blur="capsTooltip = false"
+            @keyup.enter.native="handleLogin"
+          />
+          <span class="show-pwd" @click="showPwd">
+            <svg-icon
+              :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
+            />
+          </span>
+        </el-form-item>
+      </el-tooltip>
+      <!-- 登录按钮 -->
+      <el-button
+        :loading="loading"
+        type="primary"
+        style="width: 100%; margin-bottom: 30px"
+        @click.native.prevent="handleLogin"
+        >登录</el-button
+      >
+      <!-- <el-button :loading="loading" type="info" style="width:29%;margin-bottom:30px;" @click.native.prevent="handleToRegister">去注册</el-button> -->
+      <!-- 下面的提示 -->
+      <!-- <div class="tips">
+        <span style="margin-right:20px;">phoneNumber: admin</span>
         <span> password: any</span>
+      </div> -->
+      <div style="display: flex; justify-content: space-between">
+        <!-- <div class="tips">
+          <span>没有账号?</span>
+          <span>Password : any</span>
+        </div>
+        <div class="tips">
+          <span style="margin-right:18px;">注册</span>
+          <span>Password : any</span>
+        </div> -->
+        <el-button
+          class="register-button"
+          type="info"
+          style="width: 30%; margin-bottom: 30px"
+          @click="handleToRegister"
+        >
+          注册
+        </el-button>
+        <el-button
+          class="thirdparty-button"
+          type="info"
+          style="width: 30%; margin-bottom: 30px"
+          @click="showDialog = true"
+        >
+          第三方登录
+        </el-button>
       </div>
-
     </el-form>
+    <el-dialog title="Or connect with" :visible.sync="showDialog">
+      Can not be simulated on local, so please combine you own business
+      simulation! ! !
+      <br />
+      <br />
+      <br />
+      <social-sign />
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
+import { login } from "@/api/admin"
+import { validPhoneNumber } from "@/utils/validate";
+import SocialSign from "./components/SocialSignin";
 
 export default {
-  name: 'Login',
+  name: "Login",
+  components: { SocialSign },
   data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
+    const validatePhoneNumber = (rule, value, callback) => {
+      // 一个常量 跟一个匿名函数 (callback 就是一个函数指针)
+      if (!validPhoneNumber(value)) {
+        // 调用了@/utils/validate 中的validPhoneNumber()
+        callback(new Error("请输入11位手机号"));
       } else {
-        callback()
+        callback();
       }
-    }
+    };
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+        // 登录只需判断长短
+        callback(new Error("密码至少需要8位"));
+      } else if (value.length > 16) {
+        callback(new Error("密码不能超过16位"));
       } else {
-        callback()
+        callback();
       }
-    }
+    };
     return {
       loginForm: {
-        username: 'admin',
-        password: '111111'
+        phoneNumber: "12345678901",
+        password: "111111",
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        phoneNumber: [
+          { required: true, trigger: "blur", validator: validatePhoneNumber },
+        ], // validator都是封装好的
+        password: [
+          { required: true, trigger: "blur", validator: validatePassword },
+        ],
       },
       loading: false,
-      passwordType: 'password',
-      redirect: undefined
-    }
+      passwordType: "password", // 定义一个字符串 method中改变 控制密码的表单项的类型
+      redirect: undefined,
+      showDialog: false,
+      capsTooltip: false,
+    };
   },
   watch: {
     $route: {
-      handler: function(route) {
-        this.redirect = route.query && route.query.redirect
+      handler: function (route) {
+        this.redirect = route.query && route.query.redirect;
       },
-      immediate: true
+      immediate: true,
+    },
+  },
+  created() {
+    // window.addEventListener('storage', this.afterQRScan)
+  },
+  mounted() {
+    if (this.loginForm.phoneNumber === "") {
+      this.$refs.phoneNumber.focus();
+    } else if (this.loginForm.password === "") {
+      this.$refs.password.focus();
     }
   },
+  destroyed() {
+    // window.removeEventListener('storage', this.afterQRScan)
+  },
   methods: {
+    checkCapslock(e) {
+      const { key } = e;
+      this.capsTooltip = key && key.length === 1 && key >= "A" && key <= "Z";
+    },
     showPwd() {
-      if (this.passwordType === 'password') {
-        this.passwordType = ''
+      if (this.passwordType === "password") {
+        this.passwordType = "";
       } else {
-        this.passwordType = 'password'
+        this.passwordType = "password";
       }
       this.$nextTick(() => {
-        this.$refs.password.focus()
-      })
+        this.$refs.password.focus();
+      });
     },
     handleLogin() {
-      this.$refs.loginForm.validate(valid => {
+      this.$refs.loginForm.validate((valid) => {
         if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
-            this.loading = false
-          }).catch(() => {
-            this.loading = false
-          })
+          this.loading = true;
+          // login(this.loginForm) 在store里面有
+          this.$store
+            .dispatch("admin/login", this.loginForm)
+            .then(() => {
+              // 传值给vuex的mutation改变state; 视频中的是保存在session中 这里是vuex (?)
+              this.$router.push({ path: this.redirect || "/" }); // 跳转到/
+              this.loading = false;
+            })
+            .catch(() => {
+              this.loading = false;
+            });
         } else {
-          console.log('error submit!!')
-          return false
+          console.log("error submit!!");
+          return false;
         }
-      })
-    }
-  }
-}
+      });
+    },
+    handleToRegister() {
+      this.$router.push("/register");
+    },
+    getOtherQuery(query) {
+      return Object.keys(query).reduce((acc, cur) => {
+        if (cur !== "redirect") {
+          acc[cur] = query[cur];
+        }
+        return acc;
+      }, {});
+    },
+    // afterQRScan() {
+    //   if (e.key === 'x-admin-oauth-code') {
+    //     const code = getQueryObject(e.newValue)
+    //     const codeMap = {
+    //       wechat: 'code',
+    //       tencent: 'code'
+    //     }
+    //     const type = codeMap[this.auth_type]
+    //     const codeName = code[type]
+    //     if (codeName) {
+    //       this.$store.dispatch('LoginByThirdparty', codeName).then(() => {
+    //         this.$router.push({ path: this.redirect || '/' })
+    //       })
+    //     } else {
+    //       alert('第三方登录失败')
+    //     }
+    //   }
+    // }
+  },
+};
 </script>
 
 <style lang="scss">
 /* 修复input 背景不协调 和光标变色 */
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
-$bg:#283443;
-$light_gray:#fff;
+$bg: #283443;
+$light_gray: #fff;
 $cursor: #fff;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
@@ -173,9 +299,9 @@ $cursor: #fff;
 </style>
 
 <style lang="scss" scoped>
-$bg:#2d3a4b;
-$dark_gray:#889aa4;
-$light_gray:#eee;
+$bg: #2d3a4b;
+$dark_gray: #889aa4;
+$light_gray: #eee;
 
 .login-container {
   min-height: 100%;
@@ -232,6 +358,26 @@ $light_gray:#eee;
     color: $dark_gray;
     cursor: pointer;
     user-select: none;
+  }
+
+  .register-button {
+    // position: absolute;
+    // right: 0;
+    position: relative;
+    bottom: 6px;
+  }
+  .thirdparty-button {
+    // position: absolute;
+    position: relative;
+    // left: 258px;
+    // right: 0px;
+    bottom: 6px;
+  }
+
+  @media only screen and (max-width: 470px) {
+    .thirdparty-button {
+      display: none;
+    }
   }
 }
 </style>

@@ -16,7 +16,7 @@ export default {
     const { icon, title } = context.props
     const vnodes = []
 
-    if (icon) {
+    if (icon) { // 处理传进来的表示icon的字符串 将其转换为html标签
       if (icon.includes('el-icon')) {
         vnodes.push(<i class={[icon, 'sub-el-icon']} />)
       } else {
