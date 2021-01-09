@@ -41,3 +41,35 @@ export function logout() {
     method: 'get',
   })
 }
+
+export function changePwd(data) {
+  return request({
+    url: '/background-management/admin/pwd',
+    method: 'post',
+    data
+  })
+}
+
+export function changePhoneNumber(data) {
+  return request({
+    url: '/background-management/admin/phone',
+    method: 'delete',
+    data
+  })
+}
+
+export function cancellation(data) {
+  return request({
+    url: '/background-management/admin/cancellation',
+    method: 'delete',
+    data
+  })
+}
+
+export function updateBasicInfo(data) {
+  return request({
+    url: '/background-management/admin/update-info',
+    method: 'post',
+    data
+  })
+}

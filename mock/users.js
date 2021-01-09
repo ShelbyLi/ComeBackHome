@@ -24,6 +24,15 @@ for (let i = 0; i < count; i++) {
   }))
 }
 
+var xAxisData = [];
+var data1 = [];
+var data2 = [];
+for (var i = 0; i < 100; i++) {
+  xAxisData.push('时间' + i);
+  data1.push((Math.sin(i / 5) * (i / 5 - 10) + i / 6) * 5);
+  data2.push((Math.cos(i / 5) * (i / 5 - 10) + i / 6) * 5);
+}
+
 module.exports = [
   {
     url: '/background-management/user/list',
@@ -62,6 +71,66 @@ module.exports = [
         data: 'success',
         message: 'sss'
       }
+    }
+  },
+  {
+    url: '/background-management/user/visualization/data',
+    type: 'get',
+    response: config => {
+      // return {
+      //   "code": 200,
+      //   "msg": "操作成功",
+      //   "data": {
+      //     "legendData": ['<18', '18-25', '26-35', '36-45', '>45'],
+      //     "seriesData": [
+      //       { value: 335, name: '<18' },
+      //       { value: 310, name: '18-25' },
+      //       { value: 234, name: '26-35' },
+      //       { value: 135, name: '36-45' },
+      //       { value: 1548, name: '>45' }
+      //     ],
+      //   }
+      // }
+
+      // return {
+      //   "code": 200,
+      //   "msg": "操作成功",
+      //   "data": {
+      //     "legendData": ['新增人数', '注销人数'],
+      //     "xAxisData": xAxisData,
+      //     "seriesData": [data1, data2]
+      //   }
+      // }
+
+      // return {
+      //   "code": 200,
+      //   "msg": "操作成功",
+      //   "data": {
+      //     "legendData": ['上报事件人数', '上报线索人数', '新增人数'],
+      //     "yAxisData": ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+      //     "seriesData": [
+      //       [320, 302, 301, 334, 390, 330, 320],
+      //       [120, 132, 101, 134, 90, 230, 210],
+      //       [220, 182, 191, 234, 290, 330, 310]
+      //     ]
+      //   }
+      // }
+
+      return {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "legendData": ['用户'],
+          "seriesData": [
+            {name: '330481', value: 10},
+            {name: '330301', value: 11},
+            {name: '330201', value: 12},
+            {name: '330101', value: 10},
+            {name: '330501', value: 15},
+          ]
+        }
+      }
+
     }
   },
 ]

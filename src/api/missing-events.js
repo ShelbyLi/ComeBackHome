@@ -72,3 +72,11 @@ export function updateClueLevel(data) {
     data
   })
 }
+
+export function getOptionData(type) {
+  return request({
+    url: '/background-management/missing-event/visualization/data',
+    method: 'get',
+    params: { type }
+  })
+}

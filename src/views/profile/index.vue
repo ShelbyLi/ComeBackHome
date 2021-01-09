@@ -18,9 +18,8 @@
                 <timeline />
               </el-tab-pane>
               <el-tab-pane label="我的基本信息" name="account">
-                <account :user="admin" />
-                <!-- <account: :admin="admin" /> -->
-                <!-- TODO why一定要:user -->
+                <!-- <account /> -->
+                <account :admin="admin" />
               </el-tab-pane>
               <el-tab-pane label="账号安全" name="security">
                 <security />
@@ -50,7 +49,7 @@ export default {
     return {
       // user: {},
       admin: {},
-      activeTab: 'security'
+      activeTab: 'account'
     }
   },
   computed: {
@@ -61,7 +60,7 @@ export default {
       'phoneNumber',
       'briefInfo',
       'nickname',
-      'password'
+      // 'password'
     ])
   },
   created() {
@@ -86,6 +85,7 @@ export default {
         phoneNumber: this.phoneNumber,
         briefInfo: this.briefInfo
       }
+      // console.log(this.admin);
     }
   }
 }

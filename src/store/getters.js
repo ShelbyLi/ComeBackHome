@@ -11,6 +11,6 @@ const getters = {
   avatar: state => state.admin.avatar,
   roles: state => state.admin.roles,
   briefInfo: state => state.admin.briefInfo,
-  password: state => state.admin.password
+  // password: state => state.admin.password
 }
 export default getters

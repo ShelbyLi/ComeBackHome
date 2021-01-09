@@ -29,9 +29,10 @@ module.exports = [
       "msg": "操作成功",
       "data": {
         "phoneNumber": "19858111661",
+        // "password": "AAAaaa111",
         "name": "hcy",
         "nickname": "hh",
-        "headPortrait": "",
+        "headPortrait": "https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg",
         "roles": ['root'],
         "briefInfo": "我喜欢hh"
       }
@@ -45,5 +46,41 @@ module.exports = [
       "msg": "操作成功",
       "data": null
     }
-  }
+  },
+  {
+    url: '/background-management/admin/pwd',
+    type: 'post',
+    response: {
+      "code": 200,
+      "msg": "操作成功",
+      "data": null
+    }
+  },
+  {
+    url: '/background-management/admin/phone',
+    type: 'post',
+    response: {
+      "code": 200,
+      "msg": "操作成功",
+      "data": null
+    }
+  },
+  {
+    url: '/background-management/admin/cancellation',
+    type: 'delete',
+    response: {
+      "code": 200,
+      "msg": "操作成功",
+      "data": null
+    }
+  },
+  {
+    url: '/background-management/admin/update-info',
+    type: 'post',
+    response: {
+      "code": 200,
+      "msg": "操作成功",
+      "data": null
+    }
+  },
 ]

@@ -9,7 +9,8 @@ const getDefaultState = () => {
     avatar: '',
     phoneNumber: '',
     nickname: '',
-    role: []
+    role: [],
+    // password: ''
   }
 }
 
@@ -39,7 +40,10 @@ const mutations = {
   },
   SET_BRIEF_INFO: (state, briefInfo) => {
     state.briefInfo = briefInfo
-  }
+  },
+  // SET_PASSWORD: (state, password) => {
+  //   state.password = password
+  // }
   // SET_HEAD_PORTRAIT: (state, avatar) => {
   //   state.avatar = avatar
   // }
@@ -106,6 +110,7 @@ const actions = {
         commit('SET_AVATAR', data.headPortrait)
         commit('SET_ROLES', data.roles)
         commit('SET_BRIEF_INFO', data.briefInfo)
+        // commit('SET_PASSWORD', data.password)
         resolve(data)
       }).catch(error => {
         reject(error)

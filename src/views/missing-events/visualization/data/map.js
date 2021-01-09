@@ -4,7 +4,7 @@ export function getMapOption(data) {
   return {
     backgroundColor: '#404a59',
     title: {
-      text: '全国用户分布',
+      text: '全国走失事件分布',
       // subtext: 'data from PM25.in',
       // sublink: 'http://www.pm25.in',
       left: 'center',
@@ -40,7 +40,8 @@ export function getMapOption(data) {
         emphasis: {
           areaColor: '#2a333d'
         }
-      }
+      },
+      zoom: 1.2
     },
     series: [
       {

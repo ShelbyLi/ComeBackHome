@@ -89,30 +89,30 @@ module.exports = [
     response: config => {
       // console.log('看不到config');
       // console.log(config.query.type); // 算了
-      return {
-        "code": 200,
-        "msg": "操作成功",
-        "data": {
-          "legendData": ['<18', '18-25', '26-35', '36-45', '>45'],
-          "seriesData": [
-            { value: 335, name: '<18' },
-            { value: 310, name: '18-25' },
-            { value: 234, name: '26-35' },
-            { value: 135, name: '36-45' },
-            { value: 1548, name: '>45' }
-          ],
-        }
-      }
-
       // return {
       //   "code": 200,
       //   "msg": "操作成功",
       //   "data": {
-      //     "legendData": ['新增人数', '注销人数'],
-      //     "xAxisData": xAxisData,
-      //     "seriesData": [data1, data2]
+      //     "legendData": ['<18', '18-25', '26-35', '36-45', '>45'],
+      //     "seriesData": [
+      //       { value: 335, name: '<18' },
+      //       { value: 310, name: '18-25' },
+      //       { value: 234, name: '26-35' },
+      //       { value: 135, name: '36-45' },
+      //       { value: 1548, name: '>45' }
+      //     ],
       //   }
       // }
+
+      return {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "legendData": ['新增人数', '注销人数'],
+          "xAxisData": xAxisData,
+          "seriesData": [data1, data2]
+        }
+      }
 
       // return {
       //   "code": 200,

@@ -120,8 +120,8 @@ export default {
   },
   methods: {
     getOptionData() {
-      this.getPieOptionData()
-      // this.getBarOptionData()
+      // this.getPieOptionData()
+      this.getBarOptionData()
       // this.getBar2OptionData();
       // this.getMapOptionData();
     },
@@ -139,6 +139,7 @@ export default {
     },
     getBar2OptionData() {
       getOptionData("bar2").then((response) => {
+        console.log(response.data);
         this.bar2 = getBar2Option(response.data);
       });
     },
